@@ -32,16 +32,34 @@ def pretty(line):
         print(indent_str * ilevel + line.strip())
 
 
+def linecount(filename):
+    def _make_gen(reader):
+        b = reader(1024 * 1024)
+        while b:
+            yield b
+            b = reader(1024*1024)
+    
+    #def rawgencount(filename):
+    f = open(filename, 'rb')
+    f_gen = _make_gen(f.raw.read)
+    
+    return sum( buf.count(b'\n') for buf in f_gen )
+
+
 parsed_data = []
 mdsd_file = Path("../sorted_data/books/all.review")
-mdsd_file = Path("../sorted_data/software/all.review")
+#mdsd_file = Path("../sorted_data/video/all.review")
+
+mdsd_lines = linecount(mdsd_file);
+print("Processing {} lines".format("{:,}".format(mdsd_lines)))
+
 
 with mdsd_file.open() as data:
 
     ilevel     = 0
     review_str = ""
 
-    for line in tqdm.tqdm(data):
+    for line in tqdm.tqdm(data, total=mdsd_lines):
 
         # put all lines from the same review into a string 
         if re.match(r"\s*<review>\s*", line):
@@ -58,7 +76,7 @@ with mdsd_file.open() as data:
 
 test_percent = 0.1
 
-with Path("fasttext-mdsd-train.txt").open("w") as train_output, \
+with Path("fasttext-mdsd-train.txt").open("w", encoding="utf-8") as train_output, \
      Path("fasttext-mdsd-test.txt").open("w") as test_output:
     # convert to the format fasttext needs
     for d in tqdm.tqdm(parsed_data):
