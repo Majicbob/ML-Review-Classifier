@@ -1,6 +1,7 @@
 import re
 from pathlib import Path
-
+import random
+import tqdm
 
 def parse(review_str):
     m = re.search(r"<rating>\s*(\d)\.\d\s*</rating>", review_str)
@@ -32,13 +33,15 @@ def pretty(line):
 
 
 parsed_data = []
+mdsd_file = Path("../sorted_data/books/all.review")
+mdsd_file = Path("../sorted_data/software/all.review")
 
-with Path("mdsd-example.txt").open() as data:
+with mdsd_file.open() as data:
 
     ilevel     = 0
     review_str = ""
 
-    for line in data:
+    for line in tqdm.tqdm(data):
 
         # put all lines from the same review into a string 
         if re.match(r"\s*<review>\s*", line):
@@ -52,4 +55,20 @@ with Path("mdsd-example.txt").open() as data:
                 
         #pretty(line)
 
-print("done")
+
+test_percent = 0.1
+
+with Path("fasttext-mdsd-train.txt").open("w") as train_output, \
+     Path("fasttext-mdsd-test.txt").open("w") as test_output:
+    # convert to the format fasttext needs
+    for d in tqdm.tqdm(parsed_data):
+        # FastText expects the review text to be all one line, lowercase with puntuation seperated
+        text = d.get("text").replace("\n", "").lower()
+        text = re.sub(r"([.!?,/()])", r" \1 ", text)
+        ft = "__label__{} {}".format(d.get("rating"), text)
+        
+        if random.random() <= test_percent:
+            test_output.write(ft +"\n")
+        else:
+            train_output.write(ft + "\n")
+            
