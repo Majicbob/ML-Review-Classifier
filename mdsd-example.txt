@@ -1,0 +1,175 @@
+<review>
+<unique_id>
+B00007LVF9:beginners_look_somewhere_else.:tonnie_johnson
+</unique_id>
+<unique_id>
+433
+</unique_id>
+<asin>
+B00007LVF9
+</asin>
+<product_name>
+Easy Language 16 (Jewel Case): Software
+</product_name>
+<product_type>
+software
+</product_type>
+<product_type>
+software
+</product_type>
+<helpful>
+15 of 15
+</helpful>
+<rating>
+2.0
+</rating>
+<title>
+Beginners look somewhere else.
+</title>
+<date>
+July 12, 2005
+</date>
+<reviewer>
+Tonnie Johnson
+</reviewer>
+<reviewer_location>
+Detroit, MI USA
+</reviewer_location>
+<review_text>
+The Easy Language 16 is only useful if you're already familiar with the language you wish to learn.  I've been studying French for months before buying this product and found it to be helpful when I'm getting rusty.  The only problem is that it's hard to make out what is being said because the sound is not clear.  The recorded speakers also don't bother to slow down to give you a chance to understand or repeat what is being said.  This is good cause it's like listening to an actual French speaker and not a robot, bad if you actually want to learn how to pronounce what is being said.  It will also go over basic French grammar but is totally useless if you don't already know basic French grammar.      
+
+I also tried to use this to learn Japanese.  Unlike French, I'm not familiar with the Japanese language at all so trying to use this product to learn it became a nightmare.  If all you want to do is learn how to speak the language it does have a Romanized version of the words and phrases to make it easier to sound them out.  Unfortunately the basic Japanese grammar and Japanese alphabet are all written in Japanese.  For instance, in the grammar section it has the past, present and future "I am"  it's written in english then beside it it's written in Japanese.  You can't click them to have it sound out for you.  In the Japanese alphabet section all it has is the Japanese alphabet and you can click them to sound them out but you really have no clue what you are sounding out.  So it teaches you nothing about reading the language but the test they want you to take are purely in Japanese.  I do want to learn how to read, write and speak Japanese so none of this would be a problem if it actually taught you how to read, write, and speak Japanese!   So my guess would be that you really have to be familiar with Japanese (NOT the Romanized(Romanjj) version) already in order to use this product.  Because of my experiences with this product I would say get it only if you know the languages you're interested in and use it as a refresher and nothing more.  Since I am familiar with French this product was pretty helpful but if I used this as a starter for the language I probably would have quit.  I'm searching Amazon for better Japanese books. So if you want to actually learn a language look to the books with the language tapes and CD's
+</review_text>
+</review>
+<review>
+<unique_id>
+B00007LVF9:there's_no_latin_either!:peter_sipes
+</unique_id>
+<unique_id>
+434
+</unique_id>
+<asin>
+B00007LVF9
+</asin>
+<product_name>
+Easy Language 16 (Jewel Case): Software
+</product_name>
+<product_type>
+software
+</product_type>
+<product_type>
+software
+</product_type>
+<helpful>
+11 of 11
+</helpful>
+<rating>
+1.0
+</rating>
+<title>
+There's no Latin either!
+</title>
+<date>
+April 29, 2005
+</date>
+<reviewer>
+Peter Sipes
+</reviewer>
+<reviewer_location>
+
+</reviewer_location>
+<review_text>
+My boss asked me to get this, so that he check out the Latin portion of it.
+
+What a waste!  The only Latin on this CD is *Latin* American Spanish.
+
+The interface was underwhelming. I needed to guess at what did what, because the controls are mostly icons. What's worse, there is no  menu bar at the top to help take the guess work out of using the program. 
+
+Apparently though, the manufacturer did throw in an extra *not* listed on the back.  If you are learning the differences between US and UK English, its there!
+
+I gave this one star, only because I couldn't give it no stars
+</review_text>
+</review>
+<review>
+<unique_id>
+B00007LVF9:very_sad_to_hear_there_is_no_haitian_creole_on_this_cd-rom:kathleen_m._pagan
+</unique_id>
+<unique_id>
+435
+</unique_id>
+<asin>
+B00007LVF9
+</asin>
+<product_name>
+Easy Language 16 (Jewel Case): Software
+</product_name>
+<product_type>
+software
+</product_type>
+<product_type>
+software
+</product_type>
+<helpful>
+10 of 11
+</helpful>
+<rating>
+1.0
+</rating>
+<title>
+Very sad to hear there is no Haitian Creole on this CD-Rom
+</title>
+<date>
+December 14, 2004
+</date>
+<reviewer>
+Kathleen M. Pagan
+</reviewer>
+<reviewer_location>
+Miami, FL
+</reviewer_location>
+<review_text>
+I found this title messing around adding things to my wish list.  I only read the blurb on Amazon enough to see Haitian Creaole listed as one of the languages.  Today updating my wish list I took extra time to find out why this was rated so low since nearly every thing on my list is 4 stars or more!  How unfortunate to find out that others before me made the mistake I almost made buying this in hopes of it having Haitian Creole!  Very disappointing!!!!  The makers should be ashamed
+</review_text>
+</review>
+<review>
+<unique_id>
+B00007LVF9:want_to_learn_hebrew:stacey_rn,_bsn_"se"
+</unique_id>
+<unique_id>
+436
+</unique_id>
+<asin>
+B00007LVF9
+</asin>
+<product_name>
+Easy Language 16 (Jewel Case): Software
+</product_name>
+<product_type>
+software
+</product_type>
+<product_type>
+software
+</product_type>
+<helpful>
+19 of 20
+</helpful>
+<rating>
+1.0
+</rating>
+<title>
+Want to learn hebrew
+</title>
+<date>
+October 20, 2004
+</date>
+<reviewer>
+Stacey RN, BSN "SE"
+</reviewer>
+<reviewer_location>
+Hollywood, Florida
+</reviewer_location>
+<review_text>
+They have the hebrew backwards!! You are supposed to read hebrew right to left-the opposite of english and this cd has it left to right. I find it extremely confusing. I know how to read hebrew and I wanted to learn how to speak it.
+What a poor effort!
+</review_text>
+</review>
