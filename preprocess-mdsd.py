@@ -78,7 +78,7 @@ def parse_file(file):
 
     tqdm.write("File: {}\nLines: {}\n".format(file.resolve(), num_lines))
 
-    with file.open(errors="replace") as data:
+    with file.open(encoding="utf-8",errors="replace") as data:
         ilevel      = 0
         review_str  = ""
 
@@ -90,7 +90,11 @@ def parse_file(file):
             elif re.match(r"\s*</review>\s*", line):
                 review_str += line
                 # full review text in str, parse data
-                parsed_data.append(parse_review(review_str))
+                # to handle split files make sure open tag exists
+                if re.match(r"\s*<review>\s*", review_str):
+                    parsed_data.append(parse_review(review_str))
+                else:
+                    review_str = ""
 
             else:
                 review_str += line
@@ -136,7 +140,14 @@ test_file    = "fasttext-mdsd-test.txt"
 7.0M sorted_data/apparel/all.review
 315K sorted_data/musical_instruments/all.review
 """
-mdsd_files = ("sorted_data/books/all.review",
+mdsd_files = (
+"sorted_data/books.all.review00",
+"sorted_data/books.all.review01",
+"sorted_data/books.all.review02",
+"sorted_data/books.all.review03",
+"sorted_data/books.all.review04",
+"sorted_data/books.all.review05",
+"sorted_data/books.all.review06",
 "sorted_data/music/all.review",
 "sorted_data/dvd/all.review",
 "sorted_data/video/all.review",
@@ -169,8 +180,8 @@ for file in mdsd_files:
 
 # Format parsed data to FastText format and write training and test files.
 tqdm.write("\nFormatting data and writing files. Reviews {}\n".format(len(parsed_data)))
-with Path(train_file).open("w") as train_output, \
-     Path(test_file).open("w") as test_output:
+with Path(train_file).open("w", encoding="utf-8") as train_output, \
+     Path(test_file).open("w", encoding="utf-8") as test_output:
     for d in tqdm(parsed_data):
         ft = format_line(d)
         if random.random() <= test_percent:
