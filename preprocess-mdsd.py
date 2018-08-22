@@ -97,6 +97,8 @@ def parse_file(file):
 
 parsed_data  = []
 test_percent = 0.1 # percent of reviews to be put in test file instead of train file
+train_file   = "fasttext-mdsd-train.txt"
+test_file    = "fasttext-mdsd-test.txt"
 
 """Some of the MDSD files with various sizes for testing
 
@@ -138,8 +140,8 @@ for file in mdsd_files:
 
 # Format parsed data to FastText format and write training and test files.
 tqdm.write("\nFormatting data and writing files. Reviews {}\n".format(len(parsed_data)))
-with Path("fasttext-mdsd-train.txt").open("w") as train_output, \
-     Path("fasttext-mdsd-test.txt").open("w") as test_output:
+with Path(train_file).open("w") as train_output, \
+     Path(test_file).open("w") as test_output:
     for d in tqdm(parsed_data):
         # FastText expects the review text to be all one line, lowercase with puntuation seperated
         text = d.get("text").replace("\n", "").lower()
