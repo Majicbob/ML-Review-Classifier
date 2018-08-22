@@ -1,7 +1,7 @@
 import re
 from pathlib import Path
 import random
-import tqdm
+from tqdm import tqdm
 
 
 def parse(review_str):
@@ -77,17 +77,17 @@ mdsd_file = Path("../sorted_data/musical_instruments/all.review")
 
 parsed_data  = []
 test_percent = 0.1 # percent of reviews to be put in test file instead of train file
-mdsd_lines   = linecount(mdsd_file);
+mdsd_lines   = linecount(mdsd_file)
 
-print("Processing File: ", mdsd_file.resolve())
-print("Processing {} lines".format("{:,}".format(mdsd_lines)))
+tqdm.write("File: {}\nLines: {}\n".format(mdsd_file.resolve(), mdsd_lines))
 
+# Read file line by line, when a whole review has been read parse it.
 with mdsd_file.open() as data:
 
     ilevel     = 0
     review_str = ""
 
-    for line in tqdm.tqdm(data, total=mdsd_lines):
+    for line in tqdm(data, total=mdsd_lines):
          # put all lines from the same review into a string
         if re.match(r"\s*<review>\s*", line):
             review_str = line
@@ -101,9 +101,10 @@ with mdsd_file.open() as data:
         # ilevel = pretty(line, ilevel)
 
 # Format parsed data to FastText format and write training and test files.
+tqdm.write("Formatting data and writing files\n")
 with Path("fasttext-mdsd-train.txt").open("w") as train_output, \
      Path("fasttext-mdsd-test.txt").open("w") as test_output:
-    for d in tqdm.tqdm(parsed_data):
+    for d in tqdm(parsed_data):
         # FastText expects the review text to be all one line, lowercase with puntuation seperated
         text = d.get("text").replace("\n", "").lower()
         text = re.sub(r"([.!?,/()])", r" \1 ", text)
@@ -117,3 +118,4 @@ with Path("fasttext-mdsd-train.txt").open("w") as train_output, \
             test_output.write(ft +"\n")
         else:
             train_output.write(ft + "\n")
+
