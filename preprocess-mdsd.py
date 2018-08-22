@@ -4,7 +4,7 @@ import random
 from tqdm import tqdm
 
 
-def parse(review_str):
+def parse_review(review_str):
     """Parse rating and review text out of the given string and return.
     
     Args: 
@@ -65,6 +65,34 @@ def linecount(filename):
 
     return sum( buf.count(b'\n') for buf in f_gen )
 
+def parse_file(file):
+    """Read file line by line, when a whole review has been read parse it.
+    
+    """
+    num_lines = linecount(file)
+
+    tqdm.write("File: {}\nLines: {}\n".format(file.resolve(), num_lines))
+
+    with file.open() as data:
+        parsed_data = []
+        ilevel      = 0
+        review_str  = ""
+    
+        for line in tqdm(data, total=num_lines):
+            # put all lines from the same review into a string
+            if re.match(r"\s*<review>\s*", line):
+                review_str = line
+            elif re.match(r"\s*</review>\s*", line):
+                review_str += line
+                # full review text in str, parse data
+                parsed_data.append(parse_review(review_str))
+            else:
+                review_str += line
+    
+            # ilevel = pretty(line, ilevel)
+        
+        return parsed_data
+
 
 """Some of the MDSD files with various sizes for testing
 
@@ -77,31 +105,13 @@ mdsd_file = Path("../sorted_data/musical_instruments/all.review")
 
 parsed_data  = []
 test_percent = 0.1 # percent of reviews to be put in test file instead of train file
-mdsd_lines   = linecount(mdsd_file)
 
-tqdm.write("File: {}\nLines: {}\n".format(mdsd_file.resolve(), mdsd_lines))
-
-# Read file line by line, when a whole review has been read parse it.
-with mdsd_file.open() as data:
-
-    ilevel     = 0
-    review_str = ""
-
-    for line in tqdm(data, total=mdsd_lines):
-         # put all lines from the same review into a string
-        if re.match(r"\s*<review>\s*", line):
-            review_str = line
-        elif re.match(r"\s*</review>\s*", line):
-            review_str += line
-            # full review text in str, parse data
-            parsed_data.append(parse(review_str))
-        else:
-            review_str += line
-
-        # ilevel = pretty(line, ilevel)
+parsed_data.extend(parse_file(mdsd_file))
+parsed_data.extend(parse_file(Path("../sorted_data/apparel/all.review")))
+parsed_data.extend(parse_file(Path("../sorted_data/software/all.review")))
 
 # Format parsed data to FastText format and write training and test files.
-tqdm.write("Formatting data and writing files\n")
+tqdm.write("\nFormatting data and writing files\n")
 with Path("fasttext-mdsd-train.txt").open("w") as train_output, \
      Path("fasttext-mdsd-test.txt").open("w") as test_output:
     for d in tqdm(parsed_data):
