@@ -6,10 +6,10 @@ from tqdm import tqdm
 
 def parse_review(review_str):
     """Parse rating and review text out of the given string and return.
-    
-    Args: 
+
+    Args:
         review_str: A whole review in the XML-like format the MDSD files use.
-        
+
     Returns: A dict with rating and text.
     """
     m = re.search(r"<rating>\s*(\d)\.\d\s*</rating>", review_str)
@@ -22,18 +22,19 @@ def parse_review(review_str):
 
     return { 'rating': rating, 'text': text}
 
-def pretty(line, ilevel):
+def pretty(line, ilevel, indent_str = "    "):
     """Print a line with the given indentation level and return the new level
 
     Based on the XML like format of the MDSD files.
     Increase indent on open tag, decrease on close.
-    
+
     Args:
-        line: Line to print 
+        line: Line to print
         ilevel: Indentation level
+        indent_str: String to use as one indent level, default 4 spaces
+
+    Returns: Next indent level
     """
-    indent_str = "    "
-    
     if ilevel == None:
         ilevel = 0
 
@@ -66,33 +67,61 @@ def linecount(filename):
 
 def parse_file(file):
     """Read file line by line, when a whole review has been read parse it.
-    
+
+    Args:
+        file: File to be parse as a Path object
+
+    Returns: List of dict items with the parsed data
     """
     parsed_data = []
     num_lines   = linecount(file)
 
     tqdm.write("File: {}\nLines: {}\n".format(file.resolve(), num_lines))
 
-    with file.open() as data:
+    with file.open(errors="replace") as data:
         ilevel      = 0
         review_str  = ""
-    
+
         for line in tqdm(data, total=num_lines):
             # put all lines from the same review into a string
             if re.match(r"\s*<review>\s*", line):
                 review_str = line
+
             elif re.match(r"\s*</review>\s*", line):
                 review_str += line
                 # full review text in str, parse data
                 parsed_data.append(parse_review(review_str))
+
             else:
                 review_str += line
-    
+
             # ilevel = pretty(line, ilevel)
-        
+
         tqdm.write("Reviews: {}\n".format(len(parsed_data)))
-        
+
     return parsed_data
+
+def format_line(data):
+    """Format review data as a single line and return.
+
+    Format is __label__LABELNAME TEXT
+    FastText expects the review text to be all one line, lowercase with puntuation seperated.
+    Also strips ASCII control chars b/c FastText dies when trying to read them.
+
+    Args:
+        data: Dict with rating and text.
+
+    Returns: Properly formatted string.
+    """
+    text = data.get("text").replace("\n", "").lower()
+    text = re.sub(r"([.!?,/()])", r" \1 ", text)
+
+    # strip the ascii control chars, might be faster to do outside of python
+    text = re.sub(r'[\x00-\x1F]', r'', text)
+
+    ft = "__label__{} {}".format(d.get("rating"), text)
+
+    return ft
 
 
 parsed_data  = []
@@ -143,15 +172,7 @@ tqdm.write("\nFormatting data and writing files. Reviews {}\n".format(len(parsed
 with Path(train_file).open("w") as train_output, \
      Path(test_file).open("w") as test_output:
     for d in tqdm(parsed_data):
-        # FastText expects the review text to be all one line, lowercase with puntuation seperated
-        text = d.get("text").replace("\n", "").lower()
-        text = re.sub(r"([.!?,/()])", r" \1 ", text)
-
-        # strip the ascii control chars, they cause errors (might be faster to do outside of python)
-        text = re.sub(r'[\x00-\x1F]', r'', text)
-
-        ft = "__label__{} {}".format(d.get("rating"), text)
-
+        ft = format_line(d)
         if random.random() <= test_percent:
             test_output.write(ft +"\n")
         else:
