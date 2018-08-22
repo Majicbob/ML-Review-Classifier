@@ -1,6 +1,6 @@
 import re
-from pathlib import Path
 import random
+from pathlib import Path
 from tqdm import tqdm
 
 
@@ -32,11 +32,10 @@ def pretty(line, ilevel):
         line: Line to print 
         ilevel: Indentation level
     """
+    indent_str = "    "
+    
     if ilevel == None:
         ilevel = 0
-
-
-    indent_str = "    "
 
     if re.match(r"\s*<\w+>", line) :
         print(indent_str * ilevel + line.strip())
@@ -69,12 +68,12 @@ def parse_file(file):
     """Read file line by line, when a whole review has been read parse it.
     
     """
-    num_lines = linecount(file)
+    parsed_data = []
+    num_lines   = linecount(file)
 
     tqdm.write("File: {}\nLines: {}\n".format(file.resolve(), num_lines))
 
     with file.open() as data:
-        parsed_data = []
         ilevel      = 0
         review_str  = ""
     
@@ -91,8 +90,13 @@ def parse_file(file):
     
             # ilevel = pretty(line, ilevel)
         
-        return parsed_data
+        tqdm.write("Reviews: {}\n".format(len(parsed_data)))
+        
+    return parsed_data
 
+
+parsed_data  = []
+test_percent = 0.1 # percent of reviews to be put in test file instead of train file
 
 """Some of the MDSD files with various sizes for testing
 
@@ -101,17 +105,39 @@ def parse_file(file):
 7.0M sorted_data/apparel/all.review
 315K sorted_data/musical_instruments/all.review
 """
-mdsd_file = Path("../sorted_data/musical_instruments/all.review")
+mdsd_files = ("sorted_data/books/all.review",
+"sorted_data/music/all.review",
+"sorted_data/dvd/all.review",
+"sorted_data/video/all.review",
+"sorted_data/electronics/all.review",
+"sorted_data/kitchen_&_housewares/all.review",
+"sorted_data/toys_&_games/all.review",
+"sorted_data/camera_&_photo/all.review",
+"sorted_data/apparel/all.review",
+"sorted_data/health_&_personal_care/all.review",
+"sorted_data/sports_&_outdoors/all.review",
+"sorted_data/magazines/all.review",
+"sorted_data/computer_&_video_games/all.review",
+"sorted_data/baby/all.review",
+"sorted_data/software/all.review",
+"sorted_data/beauty/all.review",
+"sorted_data/grocery/all.review",
+"sorted_data/jewelry_&_watches/all.review",
+"sorted_data/outdoor_living/all.review",
+"sorted_data/gourmet_food/all.review",
+"sorted_data/cell_phones_&_service/all.review",
+"sorted_data/automotive/all.review",
+"sorted_data/office_products/all.review",
+"sorted_data/musical_instruments/all.review",
+"sorted_data/tools_&_hardware/all.review" )
 
-parsed_data  = []
-test_percent = 0.1 # percent of reviews to be put in test file instead of train file
+for file in mdsd_files:
+    filepath = Path("..", file)
+    parsed_data.extend(parse_file(filepath))
 
-parsed_data.extend(parse_file(mdsd_file))
-parsed_data.extend(parse_file(Path("../sorted_data/apparel/all.review")))
-parsed_data.extend(parse_file(Path("../sorted_data/software/all.review")))
 
 # Format parsed data to FastText format and write training and test files.
-tqdm.write("\nFormatting data and writing files\n")
+tqdm.write("\nFormatting data and writing files. Reviews {}\n".format(len(parsed_data)))
 with Path("fasttext-mdsd-train.txt").open("w") as train_output, \
      Path("fasttext-mdsd-test.txt").open("w") as test_output:
     for d in tqdm(parsed_data):
