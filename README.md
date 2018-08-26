@@ -1,5 +1,6 @@
 # ML-Review-Classifier
-Text classifier for 5-star type reviews using [FastText](https://github.com/facebookresearch/fastText/) and Python.
+Text classifier for 5-star type reviews using [FastText](https://github.com/facebookresearch/fastText/), 
+[scikit-learn](http://scikit-learn.org) Python.
 
 Right now the preprocess is working for the MDSD dataset. 
 Outputs train and test files that work to build a model. 
@@ -25,3 +26,7 @@ P@1     0.738
 R@1     0.738
 Number of examples: 142392
 ```
+
+## References 
+
+[Machine Learning, NLP: Text Classification using scikit-learn, python and NLTK](https://towardsdatascience.com/machine-learning-nlp-text-classification-using-scikit-learn-python-and-nltk-c52b92a7c73a)
