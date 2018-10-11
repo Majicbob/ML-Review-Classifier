@@ -1,0 +1,11 @@
+{
+  "review_id": "abc123",
+  "user_id": "xyy123",
+  "business_id": "1234",
+  "stars": 5,
+  "date":" 2015-01-01",
+  "text": "This restaurant is great!",
+  "useful":0,
+  "funny":0,
+  "cool":0
+}
